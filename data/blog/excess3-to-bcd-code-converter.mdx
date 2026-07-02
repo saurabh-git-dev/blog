@@ -1,0 +1,86 @@
+---
+title: 'Excess-3 to BCD Code Converter'
+date: '2021-06-24'
+tags: ['excess-3', 'bcd', 'excess-3 to bcd', 'digital electronics', 'k-map']
+draft: false
+summary: 'Quick Overview - Excess -3 to BCD code Converter / Conversion using K-map. Solved using K-map. How to write/make truth table and find output expressions ? Why first 4 and last 3 ou'
+images: []
+---
+
+#### Quick Overview -
+
+Excess -3 to BCD code Converter / Conversion using K-map.
+
+Solved using K-map.
+
+How to write/make truth table and find output expressions ?
+
+Why first 4 and last 3 output rows are represented ' X ' (don't care conditions).
+
+How to find don't care ? Output Dependencies?
+
+Beginner's Guide to understand Conversion.
+
+#### Truth Table -
+
+![](/static/attachments/28032021063905038462.PNG)
+
+#### Expression For Solving K-map -
+
+B<sub>3 </sub>= Σ<sub>m</sub>(11, 12) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+B<sub>2 </sub>= Σ<sub>m</sub>(7, 8, 9, 10) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+B<sub>1 </sub>= Σ<sub>m</sub>(5, 6, 9, 10) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+B<sub>0 </sub>= Σ<sub>m</sub>(4, 6, 8, 10, 12) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+##### K-map for B<sub>3 </sub>-
+
+B<sub>3 </sub>= Σ<sub>m</sub>(11, 12) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+![](/static/attachments/01042021155712737736.PNG)
+
+B<sub>3 </sub>= E<sub>2</sub>E<sub>3 </sub>+ E<sub>0</sub>E<sub>1</sub>E<sub>3</sub>
+
+##### K-map for B<sub>2 </sub>-
+
+B<sub>2 </sub>= Σ<sub>m</sub>(7, 8, 9, 10) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+![](/static/attachments/01042021160600063231.PNG)
+
+B<sub>2 </sub>= E<sub>0</sub>'E<sub>2</sub>' + E<sub>1</sub>'E<sub>2</sub>' + E<sub>0</sub>E
+
+<sub>1</sub>E<sub>2</sub>
+
+##### K-map for B<sub>1 </sub>-
+
+B<sub>1 </sub>= Σ<sub>m</sub>(5, 6, 9, 10) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+![](/static/attachments/01042021160626378865.PNG)
+
+B<sub>1 </sub>= E<sub>0</sub>E<sub>1</sub>' + E<sub>0</sub>'E<sub>1</sub>
+
+##### K-map for B<sub>0 </sub>-
+
+B<sub>0 </sub>= Σ<sub>m</sub>(4, 6, 8, 10, 12) + d<sub>m</sub>(0, 1, 2, 13, 14, 15)
+
+![](/static/attachments/01042021160647802462.PNG)
+
+B<sub>0 </sub>= E<sub>0</sub>'
+
+#### Output Boolean Expression -
+
+B<sub>3 </sub>= E<sub>2</sub>E<sub>3 </sub>+ E<sub>0</sub>E<sub>1</sub>E<sub>3</sub>
+
+B<sub>2 </sub>= E<sub>0</sub>'E<sub>2</sub>' + E<sub>1</sub>'E<sub>2</sub>' + E<sub>0</sub>E
+
+<sub>1</sub>E<sub>2</sub>
+
+B<sub>1 </sub>= E<sub>0</sub>E<sub>1</sub>' + E<sub>0</sub>'E<sub>1</sub>
+
+B<sub>0 </sub>= E<sub>0</sub>'
+
+#### Implementation using Basic Gates -
+
+![](/static/attachments/11042021032732447731.png)

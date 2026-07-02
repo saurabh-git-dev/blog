@@ -1,0 +1,126 @@
+---
+title: 'BCD to Excess-3 Code Converter'
+date: '2021-06-07'
+tags: ['bcd', 'excess-3', 'k-map', 'digital electronics', 'conversion']
+draft: false
+summary: "Quick Overview - Beginner's Guide to understand Conversion, BCD to Excess -3 code Converter / Conversion using K-map, Making truth table and find output expressions, Finding Don't"
+images: []
+---
+
+### Quick Overview -
+
+Beginner's Guide to understand Conversion,
+
+BCD to Excess -3 code Converter / Conversion using K-map,
+
+Making truth table and find output expressions,
+
+Finding Don't care conditions,
+
+Output Dependencies,
+
+Implementation using gates.
+
+### Truth Table -
+
+![](/static/attachments/27032021174130519902.PNG)
+
+Since BCD code is from 0 to 9. So for each BCD input there will be output +3 greater than the bcd.
+So for BCD ( 0 0 0 0 ) there will be output (0 0 0 0 + 0 0 1 1) which is equals to (0 0 1 1).
+
+To get output table (truth table) add 3 (0 0 1 1) in each BCD input.
+
+Now, Once truth table is ready go for next step.
+
+### Method -
+
+From table we will make ouput expressions which can be solved using k-map (Karnaugh Map).
+
+To get expression. Start taking one output bit. lets take E<sub>3 </sub>(You are free to choose
+anyone first).
+
+Now, look at the truth table and find 1's in E<sub>3</sub> column and corresponding BCD
+code.
+
+find decimal value for this BCD code.
+
+Now, write it as E<sub>3 </sub>= Σ<sub>m</sub>(6,7,8,9) .
+
+Similarly E<sub>2 </sub>,E<sub>1</sub> ,E<sub>0 </sub>can be found .
+
+E<sub>3</sub> = Σ<sub>m</sub>(6,7,8,9)
+
+E<sub>2</sub> = Σ<sub>m</sub>(2,3,4,5)
+
+E<sub>1</sub> = Σ<sub>m</sub>(0,1,4,5,8,9)
+
+E<sub>0</sub> = Σ<sub>m</sub>(1,3,5,7,9)
+
+Since BCD is only from 0 to 9, therefore for input 10 to 15 output will be don't care terms.
+
+So, write outputs also in terms of don't care conditions -
+
+E<sub>3</sub> = Σ<sub>m</sub>(6,7,8,9) + d<sub>m</sub>(10,11,12,13,14)
+
+Similarly E<sub>2 </sub>,E<sub>1</sub> ,E<sub>0 </sub>can be expressed.
+
+### Output Expressions -
+
+E<sub>3</sub> = Σ<sub>m</sub>(6,7,8,9) + d<sub>m</sub>(10,11,12,13,14)
+
+E<sub>2</sub> = Σ<sub>m</sub>(2,3,4,5) + d<sub>m</sub>(10,11,12,13,14)
+
+E<sub>1</sub> = Σ<sub>m</sub>(0,1,4,5,8,9) + d<sub>m</sub>(10,11,12,13,14)
+
+E<sub>0</sub> = Σ<sub>m</sub>(1,3,5,7,9) + d<sub>m</sub>(10,11,12,13,14)
+
+#### K-map For E<sub>3</sub> -
+
+E<sub>3</sub> = Σ<sub>m</sub>(6,7,8,9) + d<sub>m</sub>(10,11,12,13,14)
+
+![](/static/attachments/27032021174153211243.PNG)
+
+E<sub>3</sub> = B<sub>2</sub>B<sub>0</sub> + B<sub>2</sub>B<sub>1</sub> + B<sub>3</sub>
+
+#### K-map For E<sub>2</sub> -
+
+E<sub>2</sub> = Σ<sub>m</sub>(2,3,4,5) + d<sub>m</sub>(10,11,12,13,14)
+
+![](/static/attachments/27032021174215891586.PNG)
+
+E<sub>2</sub> = B<sub>2</sub>'B<sub>0</sub> + B<sub>2</sub>'B<sub>1</sub> + B<sub>2</sub>B
+
+<sub>1</sub>'B
+<sub>0</sub>'
+
+#### K-map For E<sub>1</sub> -
+
+E<sub>1</sub> = Σ<sub>m</sub>(0,1,4,5,8,9) + d<sub>m</sub>(10,11,12,13,14)
+
+![](/static/attachments/27032021174236836750.PNG)
+
+E<sub>1</sub> = B<sub>1</sub>B<sub>0</sub> + B<sub>1</sub>'B<sub>0</sub>'
+
+#### K-map For E<sub>0</sub> -
+
+E<sub>0</sub> = Σ<sub>m</sub>(1,3,5,7,9) + d<sub>m</sub>(10,11,12,13,14)
+
+![](/static/attachments/27032021174255462580.PNG)
+
+E<sub>0</sub> = B<sub>0</sub>'
+
+#### Boolean Expressions For Outputs E<sub>3</sub> , E<sub>2 </sub>, E<sub>1 </sub>, E{' '} <sub>0 </sub>-
+
+E<sub>3</sub> = B<sub>2</sub>B<sub>0</sub> + B<sub>2</sub>B<sub>1</sub> + B<sub>3</sub>
+
+E<sub>2</sub> = B<sub>2</sub>'B<sub>0</sub> + B<sub>2</sub>'B<sub>1</sub> + B<sub>2</sub>B
+
+<sub>1</sub>'B<sub>0</sub>'
+
+E<sub>1</sub> = B<sub>1</sub>B<sub>0</sub> + B<sub>1</sub>'B<sub>0</sub>'
+
+E<sub>0</sub> = B<sub>0</sub>'
+
+#### Implementation Using Basic Gates -
+
+![](/static/attachments/27032021174313246050.PNG)

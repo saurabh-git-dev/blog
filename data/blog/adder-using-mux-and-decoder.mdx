@@ -1,0 +1,151 @@
+---
+title: 'Adder circuit using multiplexer and decoder'
+date: '2021-05-12'
+tags: ['adder', 'multiplexer', 'decoder', 'digital electronics', 'k-map']
+draft: false
+summary: 'Designing adder circuit using multiplexers and decoders. Full Adder Demonstration. Full adder using logic gates. Full Adder Introduction - Full Adder is logic of addition'
+images: []
+---
+
+Designing adder circuit using multiplexers and also from decoders.
+
+Full Adder Demonstration.
+
+Full adder using logic gates.
+
+#### Full Adder Introduction -
+
+Full Adder is logic of addition in which two numbers are added along with carry input. It means
+there will be three input in which one is carry input. It will help when we have a carry from some
+another logics or from any previous addition.
+
+#### Full Adder Truth Table -
+
+<table border="1">
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>B</td>
+      <td>
+        C<sub>in</sub>
+      </td>
+      <td>S</td>
+      <td>
+        C<sub>out</sub>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table border="1">
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Full Adder K-map Solutions -
+
+K-map Expression for outputs from truth table -
+
+Sum , S ( A, B, C<sub>in </sub>) = ∑<sub>m </sub>( 1, 2, 4, 7
+)
+
+Carry , C<sub>out</sub> ( A, B, C<sub>in </sub>) = ∑<sub>m </sub>( 3, 5, 6, 7 )
+
+#### • K-map for S -
+
+![](/static/attachments/16052021114225541212.png)
+
+From K-map, S = A'BC' + AB'C' + A'B'C + ABC
+
+#### • K-map for C<sub>out</sub> -
+
+![](/static/attachments/16052021114240945350.png)
+
+From K-map, C<sub>out</sub> = AB + BC + AC
+
+K-map Solutions -
+
+S = A'BC' + AB'C' + A'B'C + ABC
+
+or = C'( A'B + AB' ) + C( A'B' + AB )
+
+or = C'( A ⊕ B ) + C( A ⊕ B ) '
+
+S = A ⊕ B ⊕ C
+
+C<sub>out</sub> = AB + BC + AC
+
+or = ABC' + A'BC + AB'C + ABC
+
+or = ABC' + ( A'B + AB' ) C + ABC
+
+or = AB( C' + C ) + ( A'B + AB' ) C
+
+C<sub>out</sub> = AB + ( A ⊕ B ) C
+
+#### Implementation using basic gates -
+
+![](/static/attachments/16052021123623701090.png)
+
+#### Implementation using Multiplexers -
+
+![](/static/attachments/16052021142520680484.png)
+
+#### Implementation using Decoder -
+
+![](/static/attachments/16052021142541314168.png)

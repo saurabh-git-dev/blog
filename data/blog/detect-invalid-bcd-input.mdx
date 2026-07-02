@@ -1,0 +1,71 @@
+---
+title: 'Detect invalid BCD input'
+date: '2021-05-06'
+tags: ['digital electronics', 'bcd validator', 'logic gates']
+draft: false
+summary: 'How to make Truth Table . Solve this problem using K-Map. Implement it with gates and find Expressions. Quick Overview - In computing and electronic systems, binary-coded decimal ('
+images: []
+---
+
+How to make Truth Table .
+
+Solve this problem using K-Map.
+
+Implement it with gates and find Expressions.
+
+#### Quick Overview -
+
+In computing and electronic systems, binary-coded decimal (BCD) is
+a class of binary encodings of decimal numbers where each digit is
+represented by a fixed number of bits, usually four or eight. It is from 0 to 9 . This
+is also called "8421".
+
+BCD takes advantage of the fact that any one decimal numeral can be represented by a four bit
+pattern.
+
+[Read More](https://en.wikipedia.org/wiki/Binary-coded_decimal)
+
+#### Understand the need -
+
+In some application if we want to whether user input is correct BCD or not then we will perform
+operation according to the user input either will terminate the execution or do warn the user to
+input correct BCD value .
+
+#### How we are going to detect -
+
+To solve this problem lets assume if input is from 0(0 0 0 0) to 9( 1 0 0 1) then it should
+indiacte true (means it is valid BCD) and if input is from 11( 1 0 1 1) to 15( 1 1 1 1) then it
+should inidicate false (Invalid BCD) . Now for indicaton if i assume one output , which will be
+high(1) for valid BCD and low(0) for Invalid , then it can solve the problem.
+
+So consider 4 input( BCD input) and one output to detect and make truth table .
+
+#### Truth table -
+
+![](/static/attachments/09042021081316306267.PNG)
+
+#### Expression For K-Map -
+
+Now from truth table , output Y will be -
+
+Y = Σ<sub>m </sub>( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 )
+
+#### Solve K-Map For O/P (Y) -
+
+Y = Σ<sub>m </sub>( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 )
+
+Represent it in 4 variable K-map.
+
+![](/static/attachments/09042021081356509242.PNG)
+
+Now From K-map we will obtain -
+
+Y = B<sub>3</sub>' + B<sub>2</sub>'B<sub>1</sub>'
+
+#### Boolean Expression For Y -
+
+Y = B<sub>3</sub>' + B<sub>2</sub>'B<sub>1</sub>'
+
+#### Implementation using Basic Gates -
+
+![](/static/attachments/09042021083408891158.PNG)

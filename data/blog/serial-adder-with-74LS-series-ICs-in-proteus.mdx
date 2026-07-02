@@ -1,0 +1,57 @@
+---
+title: "Designing Serial Adder with 74LS Series IC's in Proteus Simulator."
+date: '2021-06-15'
+tags: ['serial adder', 'digital electronics', 'shift registers', 'adder', '4 bit serial adder']
+draft: false
+summary: "What is serial adder ? Difference between parllel and serial adder. How it works? Implementation using IC's and Proteus File. Adavantage and Disadvantage over Parllel adder. What i"
+images: []
+---
+
+What is serial adder ?
+
+Difference between parllel and serial adder.
+
+How it works?
+
+Implementation using IC's and Proteus File.
+
+Adavantage and Disadvantage over Parllel adder.
+
+#### What is Serial Adder -
+
+Serial adder is combinational circuit that performs binary addition in serialized manner instead
+of parllel.
+
+I will take a example to explain it -
+
+![](/static/attachments/19042021161142194844.png)
+
+In the avobe example i have taken two decimal numbers . Now assume you have to add these two
+numbers. What you will do . You will start adding but wait how ?
+
+How to add two numbers ? You will start from taking rightmost digit of both number and add them
+write down carry and sum . Next you will take 2nd digits from right and add them. this procedure
+continues till we reached at leftmost digit.
+
+In similar manner, Serial adder works.
+
+![](/static/attachments/19042021161326333456.png)
+
+We start taking left digits of both number and continue this step. take one digit at a time from
+both number and add them write sum and transfer the carry to the next.
+
+#### Block Diagram of Serial Adder -
+
+![](/static/attachments/19042021160908162299.png)
+
+#### How to Design Serial Adder using IC's -
+
+![](/static/attachments/20042021115203299495.png)
+
+###### [Proteus File Download](https://github.com/saurabh-git-dev/Serial-Adder.git)
+
+#### Advantages and Disadvantages -
+
+Since it add numbers in serial manner, it can add very long bit numbers also.
+
+It takes more time in comparison to parllel adder.

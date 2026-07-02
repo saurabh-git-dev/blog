@@ -1,0 +1,644 @@
+---
+title: 'Send Email using ESP8266 Wi-Fi (Node MCU) Module via SMTP'
+date: '2021-06-02'
+tags: ['esp8266', 'wifi', 'email', 'nodemcu', 'smtp', 'arduino']
+draft: false
+summary: 'Send Email using ESP8266 Wifi Module. I will use mailgun SMTP Server for this purpose. If you want to test only you can login free or you can use'
+images: []
+---
+
+In this Blog I will explain how to send Email using ESP8266 Wifi Module.
+
+I will use mailgun SMTP Server for this purpose.
+
+If you want to test only you can login free or you can use other SMTP services also.
+
+First I will login to my mailgun account and notedown my SMTP servername, port, email and
+password.
+
+You will find these credentials in every smtp service.
+
+[Download Code](https://github.com/saurabh-git-dev/ESP8266-SMTPEmail)
+
+#### SMTP -
+
+SMTP stands for Simple Mail Transfer Protocol which is used for transfer the mail via
+internet.
+
+[Read More About SMTP On Wikipedia](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol)
+
+#### SMTP Basic Commands -
+
+![](/static/attachments/08042021104652433498.PNG)
+
+[More about SMTP Command](https://blog.mailtrap.io/smtp-commands-and-responses/)
+
+#### How to implement all these idea in Esp8266 -
+
+First use esp8266wifi library function for making connection with SMTP mail server.
+
+If it will connect successfully. Server return 220 response code .
+
+Now send HELO or EHLO to verify connection.
+
+After this authenticate by sending username and password using AUTH LOGIN command.
+
+After successfull authentication you will logged in.
+
+Next you need to send FROM and RCPT TO command .
+
+Now send DATA command so that it will ready for taking data input.
+
+Now send . (dot) for terminate data transfer and send email.
+
+Now Quit connection by sending command QUIT
+
+I have used these commands because smtp understand these commands.
+
+#### What we need ( Requirements ) -
+
+1. ESP8266
+2. esp8266Wifi.h library
+3. Arduino IDE or anyother
+
+#### Steps -
+
+I have divided it into 5 step according to my program.
+
+##### • Step 1 -
+
+Notedown the ServerName( host ) , Port, Username( Email ) , Password.
+
+Go to code and insert it into right place.
+
+Write Sender details, receiver details, subject, message.
+
+Connect with your SSID and Password.
+
+##### • Step 2 -
+
+Now next We declare WebClient Object.
+
+```cpp
+WiFiClient SMTPClient;
+```
+
+##### • Step 3 -
+
+The function Response() checks if any data is available from server and print server response on
+serial monitor.
+
+We are going to use this function for checking server response after each send command so that we
+can verify that everything is going in proper way.
+
+##### • Step 4 -
+
+Now in function SendSmtpMail().
+
+first connect with smtp servername and port and checking for response of server.
+
+```cpp
+SMTPClient.connect(host, port)
+```
+
+If it is connected successfully with server, the server send 220 code in response.
+
+Now next according to Smtp we have to send " HELO" ( IN SMTP) and " EHLO " ( Extended SMTP )
+
+```cpp
+SMTPClient.println("HELO")
+```
+
+For this input command server send 250 response code if it is successful.
+
+Now we login by sending SMTP command " AUTH LOGIN ".
+
+```cpp
+SMTPClient.println("AUTH LOGIN");
+```
+
+The server respond with code 334 incating that server is ready for taking username.
+
+Now we send base64 encoded username .
+
+```cpp
+  SMTPClient.println(senderEncodedEmail);
+```
+
+The server respond with 334 incating username accepted and ready for taking password .
+
+Send base64 encoded password .
+
+```cpp
+  SMTPClient.println(senderEncodedPassword);
+```
+
+The server respond with code 235 incating that Authentication successful.
+
+Now we logged in our account using SMTP.
+
+##### • Step 5 -
+
+In this step we will send email message.
+
+After logged in,
+
+We will send command for indicating whom will send message.
+
+```cpp
+SMTPClient.printf("MAIL FROM: %s\n",*from);
+```
+
+We will send command for receiver.
+
+```cpp
+SMTPClient.printf("RCPT TO: %s\n",*recipient);
+```
+
+We need to send DATA command to smtp server.
+
+```cpp
+SMTPClient.println(F("DATA"));
+```
+
+The server respond with code 354 incating that continue. It means server is ready for receiving
+email message with proper format.
+
+Note down server will recieve message line by line while you will not send "." command.
+
+Now to Send Text you should use below code.
+
+```cpp
+  SMTPClient.printf("To: %s\n",*recipient);
+  SMTPClient.printf("From: %s\n",*from);
+  SMTPClient.printf("Subject: %s\n",*subject);
+
+SMTPClient.println(F("This message Contains Text.\n"));
+```
+
+If you want to send HTML mail replace above code with below code.
+
+```cpp
+  SMTPClient.printf("To: %s\n",*recipient);
+  SMTPClient.printf("From: %s\n",*from);
+  SMTPClient.println("Mime-Version: 1.0");
+  SMTPClient.println("Content-Type: Text/HTML; charset=ISO-8859-1");
+  SMTPClient.println("Content-Transfer-Encoding: 7bit");
+  SMTPClient.printf("Subject: %s\n",*subject);
+
+// It is neccessary to convert MAIL_TEMPLATE into String. It can't be send directly.
+String body = HTML_EMAIL_TEMPLATE;
+SMTPClient.println(body);
+```
+
+Once you send "." SMTP command to server, it will terminate receiving message further and send
+it.
+
+```cpp
+SMTPClient.println(F("."));
+```
+
+If mail send is successful you will receive 250 response.
+
+#### Code for sending TEXT email -
+
+```cpp
+#include <ESP8266WiFi.h>
+
+#define ssid "Your SSID" // Wifi Name
+#define password "Your Pass" // Wifi Password
+
+const char* host = "smtp.mailgun.org"; // Smtp Server name
+const int port = 587; // Smtp port
+
+// Base 64 Encoded Email and Password of sender.
+const char* senderEncodedEmail = "base64 encoded email";
+const char* senderEncodedPassword = "base64 encoded password";
+
+// Recipient address
+const char* Recipient = "mail@mail.com";
+
+// From Name and Email.Sender Name will be shown at top of the message at receiver end.
+const char* From = "NAME <mail@mail.com>";
+
+// Subject
+const char* Subject = "ESP8266 EMAIL TESTING";
+
+// HTML Message
+const char HTML_EMAIL_TEMPLATE[] PROGMEM = R"=====(
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Learning Electronic TESTING</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+h1{
+margin:auto;
+color:#07B8B4;
+text-align:center;
+}
+
+</style>
+</head>
+<body>
+
+# Learning Electronic
+
+Hello Visitor,
+
+Thank You for visiting learning electronic blog.\n</Strong>
+
+Learning Electronic</Strong>
+
+</body>
+</html>
+
+)=====";
+
+// Creating WifiClient Object with name SMTPClient
+WiFiClient SMTPClient;
+
+// Function for sending email
+void sendSmtpEmail(const char** from ,const char** recipient ,const char** subject);
+// function for getting response back from server for input commands
+byte Response();
+
+void setup() {
+Serial.begin(115200);
+Serial.println();
+
+Serial.printf("Connecting to :");
+Serial.println(ssid);
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED)
+{
+delay(300);
+Serial.print(".");
+}
+Serial.printf("\n[Connection Established with : %s]\n", ssid);
+
+// Calling Email Function . It will print server response on Serial Monitor
+sendSmtpEmail(&From, &Recipient, &Subject);
+
+}
+
+void loop() {
+
+}
+
+void sendSmtpEmail(const char** from ,const char** recipient ,const char** subject){
+
+Serial.printf("\nConnecting to %s ... ", host);
+// Checking for connection with SMTP Server
+if (SMTPClient.connect(host, port))
+{
+Response();
+}
+else{
+Serial.println("Failed");
+return 0;
+}
+
+// You will get 220 Response Code for successful connection.
+// In my case "220 Mailgun Influx ready"
+
+SMTPClient.println("HELO");
+if(!Response()){
+Serial.println("Failed");
+}
+
+// You will receive 250 response with some text.
+// In my case "250 smtp-out-n05.prod.us-east-1.postgun.com"
+
+SMTPClient.println("AUTH LOGIN");
+if(!Response()){
+Serial.println("Failed");
+}
+
+// You will get 334 response . It tells that you are ready to send you base64 encoded username
+// In my case response is "334 VXNlcm5hbWU6"
+
+SMTPClient.println(senderEncodedEmail);
+if(!Response()){
+Serial.println("Failed");
+}
+
+// You will get 334 response . It tells that you are ready to send you base64 encoded password
+// In my case response is "334 UGFzc3dvcmQ6"
+
+SMTPClient.println(senderEncodedPassword);
+if(!Response()){
+Serial.println("Failed");
+}
+
+// If authentication is successfull you will get response 235 which means Authentication successful.
+// In my case "235 Authentication successful"
+
+SMTPClient.printf("MAIL FROM: %s\n",*from);
+if (!Response()) {
+Serial.println("Failed");
+}
+
+// You will get response 250 for OK.
+//In my case "250 Sender address accepted"
+
+SMTPClient.printf("RCPT TO: %s\n",*recipient);
+if (!Response()){
+Serial.println("Failed");
+}
+
+// You will get 250 response.
+// In my case "250 Recipient address accepted"
+
+SMTPClient.println(F("DATA"));
+if (!Response()){
+Serial.println("Failed");
+}
+
+// You will get response 354 which means you are ready to send you data.
+// In my case "354 Continue"
+
+SMTPClient.printf("To: %s\n",*recipient);
+SMTPClient.printf("From: %s\n",*from);
+
+//SMTPClient.println("Mime-Version: 1.0");
+//SMTPClient.println("Content-Type: Text/HTML; charset=ISO-8859-1");
+//SMTPClient.println("Content-Transfer-Encoding: 7bit");
+
+SMTPClient.printf("Subject: %s\n",*subject);
+
+SMTPClient.println(F("This is a Text Message.\n"));
+
+// It is neccessary to convert MAIL_TEMPLATE into String. It can't be send directly.
+//String body = HTML_EMAIL_TEMPLATE;
+//SMTPClient.println(body);
+
+SMTPClient.println(F("."));
+if (!Response()) {
+Serial.println("Failed");
+}
+
+// If everything is Ok you will receive successful response code 250.
+// In my case "250 Great success"
+
+Serial.println("Successful... Check Your Mail!!!!!!!");
+
+SMTPClient.println(F("QUIT"));
+if (!Response()) {
+Serial.println("Failed");
+}
+// Received 221 code in response for successful
+
+}
+
+byte Response()
+{
+byte responseCode;
+byte responseByte;
+int Counter = 0;
+
+while (!SMTPClient.available())
+{
+delay(1);
+Counter++;
+//Wating till 3 seconds
+if (Counter > 30000)
+{
+SMTPClient.stop();
+Serial.println(F("\r\nTimeout"));
+return 0;
+}
+}
+
+responseCode = SMTPClient.peek();
+while (SMTPClient.available())
+{
+responseByte = SMTPClient.read();
+Serial.write(responseByte);
+}
+
+return 1;
+}
+```
+
+#### Code for sending HTML email -
+
+```cpp
+#include <ESP8266WiFi.h>
+
+#define ssid "Your SSID" // Wifi Name
+#define password "Your Pass" // Wifi Password
+
+const char* host = "smtp.mailgun.org"; // Smtp Server name
+const int port = 587; // Smtp port
+
+// Base 64 Encoded Email and Password of sender.
+const char* senderEncodedEmail = "base64 encoded email";
+const char* senderEncodedPassword = "base64 encoded password";
+
+// Recipient address
+const char* Recipient = "mail@mail.com";
+
+// From Name and Email.Sender Name will be shown at top of the message at receiver end.
+const char* From = "NAME <mail@mail.com>";
+
+// Subject
+const char* Subject = "ESP8266 EMAIL TESTING";
+
+// HTML Message
+const char HTML_EMAIL_TEMPLATE[] PROGMEM = R"=====(
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Learning Electronic TESTING</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+h1{
+margin:auto;
+color:#07B8B4;
+text-align:center;
+}
+
+</style>
+</head>
+<body>
+
+# Learning Electronic
+
+Hello Visitor,
+
+Thank You for visiting learning electronic blog.\n</Strong>
+
+Learning Electronic</Strong>
+
+</body>
+</html>
+
+)=====";
+
+// Creating WifiClient Object with name SMTPClient
+WiFiClient SMTPClient;
+
+// Function for sending email
+void sendSmtpEmail(const char** from ,const char** recipient ,const char** subject);
+// function for getting response back from server for input commands
+byte Response();
+
+void setup() {
+Serial.begin(115200);
+Serial.println();
+
+Serial.printf("Connecting to :");
+Serial.println(ssid);
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED)
+{
+delay(300);
+Serial.print(".");
+}
+Serial.printf("\n[Connection Established with : %s]\n", ssid);
+
+// Calling Email Function . It will print server response on Serial Monitor
+sendSmtpEmail(&From, &Recipient, &Subject);
+
+}
+
+void loop() {
+
+}
+
+void sendSmtpEmail(const char** from ,const char** recipient ,const char** subject){
+
+Serial.printf("\nConnecting to %s ... ", host);
+// Checking for connection with SMTP Server
+if (SMTPClient.connect(host, port))
+{
+Response();
+}
+else{
+Serial.println("Failed");
+return 0;
+}
+
+// You will get 220 Response Code for successful connection.
+// In my case "220 Mailgun Influx ready"
+
+SMTPClient.println("HELO");
+if(!Response()){
+Serial.println("Failed");
+}
+
+// You will receive 250 response with some text.
+// In my case "250 smtp-out-n05.prod.us-east-1.postgun.com"
+
+SMTPClient.println("AUTH LOGIN");
+if(!Response()){
+Serial.println("Failed");
+}
+
+// You will get 334 response . It tells that you are ready to send you base64 encoded username
+// In my case response is "334 VXNlcm5hbWU6"
+
+SMTPClient.println(senderEncodedEmail);
+if(!Response()){
+Serial.println("Failed");
+}
+
+// You will get 334 response . It tells that you are ready to send you base64 encoded password
+// In my case response is "334 UGFzc3dvcmQ6"
+
+SMTPClient.println(senderEncodedPassword);
+if(!Response()){
+Serial.println("Failed");
+}
+
+// If authentication is successfull you will get response 235 which means Authentication successful.
+// In my case "235 Authentication successful"
+
+SMTPClient.printf("MAIL FROM: %s\n",*from);
+if (!Response()) {
+Serial.println("Failed");
+}
+
+// You will get response 250 for OK.
+//In my case "250 Sender address accepted"
+
+SMTPClient.printf("RCPT TO: %s\n",*recipient);
+if (!Response()){
+Serial.println("Failed");
+}
+
+// You will get 250 response.
+// In my case "250 Recipient address accepted"
+
+SMTPClient.println(F("DATA"));
+if (!Response()){
+Serial.println("Failed");
+}
+
+// You will get response 354 which means you are ready to send you data.
+// In my case "354 Continue"
+
+SMTPClient.printf("To: %s\n",*recipient);
+SMTPClient.printf("From: %s\n",*from);
+ SMTPClient.println("Mime-Version: 1.0");
+SMTPClient.println("Content-Type: Text/HTML; charset=ISO-8859-1");
+SMTPClient.println("Content-Transfer-Encoding: 7bit");
+SMTPClient.printf("Subject: %s\n",*subject);
+
+//SMTPClient.println(F("This message is sent from ESP8266.\n"));
+
+// It is neccessary to convert MAIL_TEMPLATE into String. It can't be send directly.
+String body = HTML_EMAIL_TEMPLATE;
+SMTPClient.println(body);
+
+SMTPClient.println(F("."));
+if (!Response()) {
+Serial.println("Failed");
+}
+
+// If everything is Ok you will receive successful response code 250.
+// In my case "250 Great success"
+
+Serial.println("Successful... Check Your Mail!!!!!!!");
+
+SMTPClient.println(F("QUIT"));
+if (!Response()) {
+Serial.println("Failed");
+}
+// Received 221 code in response for successful
+}
+
+byte Response()
+{
+byte responseCode;
+byte responseByte;
+int Counter = 0;
+
+while (!SMTPClient.available())
+{
+delay(1);
+Counter++;
+//Wating till 3 seconds
+if (Counter > 30000)
+{
+SMTPClient.stop();
+Serial.println(F("\r\nTimeout"));
+return 0;
+}
+}
+
+responseCode = SMTPClient.peek();
+while (SMTPClient.available())
+{
+responseByte = SMTPClient.read();
+Serial.write(responseByte);
+}
+
+return 1;
+}
+```
+
+If you face any problem comment it.

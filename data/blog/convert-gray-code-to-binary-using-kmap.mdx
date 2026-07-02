@@ -1,0 +1,146 @@
+---
+title: 'Convert Gray Code To Binary using K-map'
+date: '2021-06-05'
+tags: ['gray code', 'binary', 'digital electronics', 'k-map']
+draft: false
+summary: 'Conversion of Gray Code to Binary using K-map method. Finding Truth table and expressions for K-map. Implementation using logic gates. Truth Table - To find truth table first it is'
+images: []
+---
+
+Conversion of Gray Code to Binary using K-map method.
+
+Finding Truth table and expressions for K-map.
+
+Implementation using logic gates.
+
+#### Truth Table -
+
+To find truth table first it is neccessary to know about gray code and binary code then it can be
+found easily.
+
+I have made truth table for your simplicity.
+
+![](/static/attachments/02042021092616029061.PNG)
+
+#### How To Solve -
+
+Now, To solve it we need truth table which i have already made.
+
+Lets consider first for output B<sub>3</sub> , see column B<sub>3</sub> and find the rows
+where B<sub>3</sub> is 1 and notedown corresponding input values.
+
+Now, for this corresponding value write decimal value.
+
+Now, once you got all of these things you are ready for writing your first expression -
+
+write it as , B<sub>3</sub> = Σ<sub>m</sub>( 8, 9, 10, 11, 12, 13, 14, 15 )
+
+Similarly take output B<sub>2</sub> and find 1's in the column and for input find corresponding
+decimal value and write it.
+
+#### Output Expression For K-map -
+
+B<sub>3</sub> = Σ<sub>m</sub>( 8, 9, 10, 11, 12, 13, 14, 15 )
+
+B<sub>2</sub> = Σ<sub>m</sub>( 4, 5, 6, 7, 12, 13, 14, 15 )
+
+B<sub>1</sub> = Σ<sub>m</sub>( 2, 3, 4, 5, 8, 9, 14, 15 )
+
+B<sub>0</sub> = Σ<sub>m</sub>( 1, 2, 4, 7, 8, 11, 13, 14)
+
+#### K-map for B3 -
+
+B<sub>3</sub> = Σ<sub>m</sub>( 8, 9, 10, 11, 12, 13, 14, 15 )
+
+![](/static/attachments/02042021093109805058.PNG)
+
+B<sub>3 </sub>= G<sub>3 </sub>
+
+#### K-map for B2 -
+
+B<sub>2</sub> = Σ<sub>m</sub>( 4, 5, 6, 7, 8, 9, 10, 11 )
+
+![](/static/attachments/02042021093145280140.PNG)
+
+B<sub>2 </sub>= G<sub>3</sub>'G<sub>2</sub> +G<sub>3</sub>G<sub>2</sub>'
+
+#### K-map for B1 -
+
+B<sub>1</sub> = Σ<sub>m</sub>( 2, 3, 4, 5, 8, 9, 14, 15 )
+
+![](/static/attachments/02042021093224904596.PNG)
+
+B<sub>1 </sub>= G<sub>3</sub>G<sub>2</sub>'G<sub>1</sub>' + G<sub>3</sub>'G<sub>2</sub>G
+
+<sub>1</sub>' + G<sub>3</sub>'G<sub>2</sub>'G<sub>1</sub> + G<sub>3</sub>G<sub>2</sub>G<sub>1 </sub>
+
+#### K-map for B0 -
+
+B<sub>0</sub> = Σ<sub>m</sub>( 1, 2, 4, 7, 8, 11, 13, 14)
+
+![](/static/attachments/02042021093319165627.PNG)
+
+B<sub>0 </sub>= G<sub>0</sub>G<sub>1</sub>'G<sub>2</sub>'G<sub>3</sub>' + G<sub>0</sub>'G
+
+<sub>1</sub>G<sub>2</sub>'G<sub>3</sub>' + G<sub>0</sub>'G<sub>1</sub>'G<sub>2</sub>G<sub>3</sub>' +
+G<sub>0</sub>G<sub>1</sub>G<sub>2</sub>G<sub>3</sub>' + G<sub>0</sub>G<sub>1</sub>'G<sub>2</sub>G
+<sub>3</sub> + G<sub>0</sub>'G<sub>1</sub>G<sub>2</sub>G<sub>3</sub> + G<sub>0</sub>G<sub>1</sub>G
+<sub>2</sub>'G<sub>3</sub> + G<sub>0</sub>G<sub>1</sub>'G
+<sub>2</sub>'G<sub>3</sub>
+
+#### Output Boolean Expression -
+
+B<sub>3 </sub>= G<sub>3 </sub>
+
+B<sub>2 </sub>= G<sub>3</sub>'G<sub>2</sub> +G<sub>3</sub>G<sub>2</sub>' = G<sub>3 </sub>⊕ G
+
+<sub>2 </sub>
+
+B<sub>1 </sub>= G<sub>3</sub>G<sub>2</sub>'G<sub>1</sub>' + G<sub>3</sub>'G<sub>2</sub>G
+
+<sub>1</sub>' + G<sub>3</sub>'G<sub>2</sub>'G<sub>1</sub> + G<sub>3</sub>G<sub>2</sub>G<sub>1 </sub>
+
+<sub> </sub>= G<sub>1</sub>' ( G<sub>3</sub>G<sub>2</sub>’ + G<sub>3</sub>’G<sub>2 </sub>) + G
+<sub>1 </sub>( G<sub>3</sub>’G<sub>2</sub>’ + G<sub>3</sub>G<sub>2 </sub>)
+
+= G<sub>1</sub>' ( G<sub>3 </sub>⊕ G<sub>2</sub>
+
+<sub> </sub>) + G<sub>1 </sub>( G<sub>3 </sub>⊕ G<sub>2</sub>
+<sub> </sub>)'
+
+= G<sub>3 </sub>⊕ G<sub>2 </sub>⊕ G<sub>1 </sub>
+
+B<sub>0 </sub>= G<sub>0</sub>G<sub>1</sub>'G<sub>2</sub>'G<sub>3</sub>' + G<sub>0</sub>
+'G<sub>1</sub>G<sub>2</sub>'G<sub>3</sub>' + G<sub>0</sub>'G<sub>1</sub>'G<sub>2</sub>G
+
+<sub>3</sub>' + G<sub>0</sub>G<sub>1</sub>G<sub>2</sub>G<sub>3</sub>' + G<sub>0</sub>G<sub>1</sub>
+'G<sub>2</sub>G<sub>3</sub> + G<sub>0</sub>'G<sub>1</sub>G<sub>2</sub>G<sub>3</sub> + G<sub>0</sub>G
+<sub>1</sub>G<sub>2</sub>'G<sub>3</sub> + G<sub>0</sub>G<sub>1</sub>'G<sub>2</sub>'G
+<sub>3</sub>
+
+= G<sub>2</sub>'G<sub>3</sub>' ( G<sub>0</sub>G<sub>1</sub>' + G<sub>0</sub>
+'G<sub>1 </sub>)<sub></sub>+ G<sub>2</sub>G<sub>3</sub>' (G
+
+<sub>0</sub>'G<sub>1</sub>' + G<sub>0</sub>G<sub>1 </sub>) + G<sub>2</sub>G<sub>3</sub> ( G
+<sub>0</sub>G<sub>1</sub>' + G<sub>0</sub>'G<sub>1 </sub>)<sub></sub>+ G<sub>2</sub>'G<sub>3</sub>
+(G
+<sub>0</sub>'G<sub>1</sub>' + G<sub>0</sub>G<sub>1 </sub>)
+
+= G<sub>2</sub>'G<sub>3</sub>' ( G<sub>0</sub> ⊕ G<sub>1 </sub>)
+
+<sub></sub>+ G<sub>2</sub>G<sub>3</sub>' ( G<sub>0</sub> ⊕ G<sub>1 </sub>)' + G<sub>2</sub>G
+<sub>3</sub> ( G<sub>0</sub> ⊕ G<sub>1 </sub>)<sub> </sub>+ G<sub>2</sub>'G<sub>3</sub> ( G
+<sub>0</sub> ⊕ G<sub>1 </sub>)'
+
+= ( G<sub>0</sub> ⊕ G<sub>1 </sub>) &#91;<sub> </sub>G<sub>2</sub>
+'G<sub>3</sub>' + G<sub>2</sub>G<sub>3</sub> &#93; + ( G<sub>0</sub> ⊕ G<sub>1 </sub>)' &#91;{' '}
+G<sub>2</sub>G<sub>3</sub>' + G<sub>2</sub>'G<sub>3</sub> )
+
+= ( G<sub>0</sub> ⊕ G<sub>1 </sub>) ( G<sub>2</sub> ⊕ G<sub>3</sub>{' '}
+)' + ( G<sub>0</sub> ⊕ G<sub>1 </sub>)' ( G<sub>2</sub> ⊕ G<sub>3</sub> )
+
+= G<sub>3 </sub>⊕ G<sub>2 </sub>⊕ G<sub>1 </sub>⊕ G<sub>0 </sub>
+
+#### Implementation using Basic Gates -
+
+![](/static/attachments/11042021042523562959.png)

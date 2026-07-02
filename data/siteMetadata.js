@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Saurabh Blog',
   author: 'Saurabh',
   headerTitle: 'Saurabh Blog',
-  description: 'A blog created using Next.js and Tailwind.css',
+  description: '',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://blog.thesaurabh.com',
